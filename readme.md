@@ -44,19 +44,16 @@ func main() {
 
 	// Get the task events from the task events channel
 	for {
-		select {
-		default:
-			ev := <-TaskQueueMgr.Monitor.EventsChannel
-
-			if ev != nil {
-
-				if x, ok := ev.(*celeriac.WorkerEvent); ok {
-					log.Printf("Task monitor: Worker event - %s", x.Type)
-				} else if x, ok := ev.(*celeriac.TaskEvent); ok {
-					log.Printf("Task monitor: Task event - %s [ID]: %s", x.Type, x.UUID)
-				}
-
+		ev := <-TaskQueueMgr.Monitor.EventsChannel
+	
+		if ev != nil {
+	
+			if x, ok := ev.(*celeriac.WorkerEvent); ok {
+				log.Printf("Task monitor: Worker event - %s", x.Type)
+			} else if x, ok := ev.(*celeriac.TaskEvent); ok {
+				log.Printf("Task monitor: Task event - %s [ID]: %s", x.Type, x.UUID)
 			}
+	
 		}
 	}
 }
